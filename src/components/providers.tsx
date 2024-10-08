@@ -3,10 +3,9 @@
 import { OnchainKitProvider } from '@coinbase/onchainkit'; 
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { baseSepolia } from 'wagmi/chains'; 
-import { type ReactNode, useState } from 'react';
-import { type State, WagmiProvider } from 'wagmi';
+import { type ReactNode } from 'react';
+import { CreateConnectorFn, type State, WagmiProvider } from 'wagmi';
 import '@rainbow-me/rainbowkit/styles.css';
-import { getConfig } from '@/wagmi';
 import {
   RainbowKitProvider,
   connectorsForWallets,
@@ -18,7 +17,7 @@ import {
   coinbaseWallet,
 } from '@rainbow-me/rainbowkit/wallets';
 
-const connectors = connectorsForWallets(
+const connectors: CreateConnectorFn[] = connectorsForWallets(
   [
     {
       groupName: 'Recommended Wallet',
@@ -30,7 +29,7 @@ const connectors = connectorsForWallets(
     },
   ],
   {
-    appName: 'Hoina',
+    appName: 'FarmBase',
     projectId: process.env.NEXT_PUBLIC_WALLETCONNECT_PROJECTID!,
   },
 );
@@ -43,10 +42,10 @@ export function Providers(props: {
 
   const projectId = process.env.NEXT_PUBLIC_WALLETCONNECT_PROJECTID!
   const wagmiConfig = getDefaultConfig({
-    connectors,
+    connectors: connectors,
     projectId: projectId,
     chains: [baseSepolia],
-    ssr: false, 
+    ssr: true, 
   }); 
  
   return (
@@ -55,6 +54,7 @@ export function Providers(props: {
         <OnchainKitProvider
           apiKey={process.env.NEXT_PUBLIC_ONCHAINKIT_API_KEY}
           chain={baseSepolia}
+          schemaId={process.env.NEXT_COINBASE_VERIFIED_ACCOUNT_SCHEMA_ID! as `0x${string}`}
         >
           <RainbowKitProvider modalSize="compact">
             {props.children}

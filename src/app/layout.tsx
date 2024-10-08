@@ -20,6 +20,7 @@ const geistMono = localFont({
 export const metadata: Metadata = {
   title: "FarmBase",
   description: "Your Trusted Farming Partner",
+  
 };
 
 export default function RootLayout({
