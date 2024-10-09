@@ -39,8 +39,8 @@ export default function RootLayout({
         <section className="min-h-screen">
             {children}
         </section>
-          <footer className="bg-black text-white py-3">
-            <div className="container mx-auto px-6 text-center">
+          <footer className="bg-[#2d2d2d] text-[#e5e5e5] py-3">
+            <div className="container mx-auto px-6 text-center text-[#4caf50] hover:text-[#b2ff59]">
               <p>&copy; {new Date().getFullYear()} FarmBase Market. All rights reserved.</p>
             </div>
           </footer>

@@ -11,6 +11,7 @@ import TransactionWrapper from "@/components/transaction-wrapper"
 import { encodeFunctionData, Hex } from 'viem';
 import { ethers } from "ethers";
 import Link from "next/link"
+import { useState } from "react"
 
 type Call = {
     to: Hex;
@@ -21,6 +22,11 @@ type Call = {
 export default function Page() {
     const { id } = useParams();
     const { product, error, isLoading } = useProductQuery({ id });
+    const [value, setValue] = useState(0);
+  const [amount, setAmount] = useState(0);
+  const [slideIndex, setSlideIndex] = useState(1);
+  const [showLightbox, setShowLightbox] = useState(false);
+
 
     const { farmer } = product;
     const abi = [
@@ -186,55 +192,79 @@ export default function Page() {
 
 
     return (
-        <div className="container mx-auto mt-5">
-            <Link href="/" className="flex items-center text-green-600 mb-6">
-                <ArrowLeft className="h-4 w-4 mr-2" />
-                Back to Products
-            </Link>
-            <section className="flex gap-10 w-full">
-                <Image src={product.image} alt={product.name} width={700} height={700} className="rounded-xl" />
-                <div className="flex flex-col justify-between w-1/2">
-                    <div className="space-y-2.5">
-                        <div className="space-y-1">
-                            <h1 className="font-bold text-4xl">{product.name}</h1>
-                            <p className="text-slate-500 text-md">{product.description}</p>
-                        </div>
-                        <h2 className="text-green-500 text-xl font-bold">{Number(product.price)} ETH</h2>
+        <div className="max-w-7xl mx-auto mt-16 md:p-8">
+        <Link
+          href="/"
+          className="flex items-center mb-6 text-slate-700 hover:text-[#4CAF50] transition-colors"
+        >
+          <ArrowLeft className="h-5 w-5 mr-2" />
+          Back to Products
+        </Link>
+      
+        <section className="grid grid-cols-1 lg:grid-cols-2 gap-12">
+          <Image
+            src={product.image}
+            alt={product.name}
+            width={700}
+            height={500}
+            className="rounded-xl shadow-lg w-full cursor-pointer transition-transform transform hover:scale-105"
+          />
+      
+          <div className="space-y-6">
+            <h1 className="font-bold text-3xl lg:text-5xl text-slate-900 leading-tight">
+              {product.name}
+            </h1>
+            <p className="text-lg lg:text-xl text-[#4CAF50]">{product.description}</p>
+            <h2 className="text-2xl lg:text-3xl font-bold text-orange-500">
+              {Number(product.price)} ETH
+            </h2>
+      
+            <Card className="w-full bg-white border border-gray-200 rounded-lg shadow-sm">
+              <CardContent className="p-6 w-full flex  items-center justify-between">
+                <div className="flex items-center space-x-4">
+                  <Avatar>
+                    <AvatarImage src={seller.avatar} alt={seller.name} />
+                    <AvatarFallback>{seller.name.charAt(0)}</AvatarFallback>
+                  </Avatar>
+                  <div>
+                    <h3 className="font-semibold text-slate-800">{product.farmer}</h3>
+                    <div className="flex items-center space-x-2 text-sm text-slate-600">
+                      <Star className="w-4 h-4 text-yellow-400 fill-yellow-400" />
+                      <span>
+                        {seller.rating} • {seller.sales.toLocaleString()} sales
+                      </span>
                     </div>
-
-                    {/* Seller Information */}
-                    <Card className="w-full">
-                        <CardContent className="p-4 w-full">
-                            <div className="flex items-center justify-between w-full">
-                                <div className="flex space-x-4 items-center">
-                                    <Avatar>
-                                        <AvatarImage src={seller.avatar} alt={seller.name} />
-                                        <AvatarFallback>{seller.name.charAt(0)}</AvatarFallback>
-                                    </Avatar>
-                                    <div>
-                                        <h3 className="font-semibold">{product.farmer}</h3>
-                                        <div className="flex items-center">
-                                            <Star className="w-4 h-4 text-yellow-400 fill-yellow-400" />
-                                            <span className="ml-1 text-sm">{seller.rating} • {seller.sales.toLocaleString()} sales</span>
-                                        </div>
-                                    </div>
-                                </div>
-                                <Button variant="outline" className="ml-auto">View Store</Button>
-                            </div>
-                        </CardContent>
-                    </Card>
-
-                    <div className="flex space-x-4">
-                        <TransactionWrapper calls={calls} text="Buy Now" />
-                        <Button variant="outline" size="icon">
-                            <Heart className="w-4 h-4" />
-                        </Button>
-                        <Button variant="outline" size="icon">
-                            <Share2 className="w-4 h-4" />
-                        </Button>
-                    </div>
+                  </div>
                 </div>
-            </section>
-        </div>)
+                <Button
+                  variant="outline"
+                  className="ml-1 rounded-full px-4 py-2 transition-colors hover:bg-orange-500 hover:text-white"
+                >
+                  View Store
+                </Button>
+              </CardContent>
+            </Card>
+      
+            <div className="flex space-x-4 mt-6">
+              <TransactionWrapper calls={calls} text="Buy Now" />
+              <Button
+                variant="outline"
+                size="icon"
+                className="rounded-md transition-colors hover:bg-orange-500 hover:text-white"
+              >
+                <Heart className="w-5 h-5" />
+              </Button>
+              <Button
+                variant="outline"
+                size="icon"
+                className="rounded-md transition-colors hover:bg-orange-500 hover:text-white"
+              >
+                <Share2 className="w-5 h-5" />
+              </Button>
+            </div>
+          </div>
+        </section>
+      </div>
+      )
 
 }

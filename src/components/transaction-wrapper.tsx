@@ -34,7 +34,7 @@ export default function TransactionWrapper({contracts, text, calls}: {
             }}
         >
             <TransactionButton
-                className="text-[white]"
+                className="text-white bg-[#4caf50] border-[#4caf50] hover:bg-[#388e3c] hover:border-[#388e3c] transition-colors duration-300 cursor rounded-full px-6 py-2"
                 text={text} />
             <TransactionStatus >
                 <TransactionStatusLabel />
