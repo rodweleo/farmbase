@@ -3,13 +3,14 @@
 import { useProductQuery } from "@/hooks/use-product-query"
 import { useParams } from "next/navigation"
 import Image from "next/image"
-import { Star, Heart, Share2 } from 'lucide-react'
+import { Star, ArrowLeft, Heart, Share2 } from 'lucide-react'
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import TransactionWrapper from "@/components/transaction-wrapper"
 import { encodeFunctionData, Hex } from 'viem';
 import { ethers } from "ethers";
+import Link from "next/link"
 
 type Call = {
     to: Hex;
@@ -17,11 +18,11 @@ type Call = {
     value?: bigint;
 };
 
-export default function Page(){
+export default function Page() {
     const { id } = useParams();
-    const { product, error, isLoading } = useProductQuery({id});
-    
-    const {farmer} = product;
+    const { product, error, isLoading } = useProductQuery({ id });
+
+    const { farmer } = product;
     const abi = [
         {
             "inputs": [],
@@ -163,7 +164,7 @@ export default function Page(){
         avatar: "/placeholder.svg?height=40&width=40"
     }
 
-    if(error){
+    if (error) {
         return (
             <div>
                 {error ? "Something went wrong:" + error : null}
@@ -171,11 +172,11 @@ export default function Page(){
         )
     }
 
-    if(isLoading){
-        return <div>Loading...</div>
+    if (isLoading) {
+        return <div className="container mx-auto mt-5">Loading...</div>
     }
 
-    if(product === null){
+    if (product === null) {
         return (
             <div>
                 Product information not found
@@ -185,50 +186,55 @@ export default function Page(){
 
 
     return (
-        <div className="flex gap-10 w-full">
-            <Image src={product.image} alt={product.name} width={700} height={700} className="rounded-xl"/>
-            <div className="flex flex-col justify-between w-1/2">
-                <div className="space-y-2.5">
-                    <div className="space-y-1">
-                        <h1 className="font-bold text-4xl">{product.name}</h1>
-                        <p className="text-slate-500 text-md">{product.description}</p>
+        <div className="container mx-auto mt-5">
+            <Link href="/" className="flex items-center text-green-600 mb-6">
+                <ArrowLeft className="h-4 w-4 mr-2" />
+                Back to Products
+            </Link>
+            <section className="flex gap-10 w-full">
+                <Image src={product.image} alt={product.name} width={700} height={700} className="rounded-xl" />
+                <div className="flex flex-col justify-between w-1/2">
+                    <div className="space-y-2.5">
+                        <div className="space-y-1">
+                            <h1 className="font-bold text-4xl">{product.name}</h1>
+                            <p className="text-slate-500 text-md">{product.description}</p>
+                        </div>
+                        <h2 className="text-green-500 text-xl font-bold">{Number(product.price)} ETH</h2>
                     </div>
-                    <h2 className="text-green-500 text-xl font-bold">{Number(product.price)} ETH</h2>
-                </div>
 
-                {/* Seller Information */}
-                <Card className="w-full">
-                    <CardContent className="p-4 w-full">
-                        <div className="flex items-center justify-between w-full">
-                            <div className="flex space-x-4 items-center">
-                                <Avatar>
-                                    <AvatarImage src={seller.avatar} alt={seller.name} />
-                                    <AvatarFallback>{seller.name.charAt(0)}</AvatarFallback>
-                                </Avatar>
-                                <div>
-                                    <h3 className="font-semibold">{product.farmer}</h3>
-                                    <div className="flex items-center">
-                                        <Star className="w-4 h-4 text-yellow-400 fill-yellow-400" />
-                                        <span className="ml-1 text-sm">{seller.rating} • {seller.sales.toLocaleString()} sales</span>
+                    {/* Seller Information */}
+                    <Card className="w-full">
+                        <CardContent className="p-4 w-full">
+                            <div className="flex items-center justify-between w-full">
+                                <div className="flex space-x-4 items-center">
+                                    <Avatar>
+                                        <AvatarImage src={seller.avatar} alt={seller.name} />
+                                        <AvatarFallback>{seller.name.charAt(0)}</AvatarFallback>
+                                    </Avatar>
+                                    <div>
+                                        <h3 className="font-semibold">{product.farmer}</h3>
+                                        <div className="flex items-center">
+                                            <Star className="w-4 h-4 text-yellow-400 fill-yellow-400" />
+                                            <span className="ml-1 text-sm">{seller.rating} • {seller.sales.toLocaleString()} sales</span>
+                                        </div>
                                     </div>
                                 </div>
+                                <Button variant="outline" className="ml-auto">View Store</Button>
                             </div>
-                            <Button variant="outline" className="ml-auto">View Store</Button>
-                        </div>
-                    </CardContent>
-                </Card>
+                        </CardContent>
+                    </Card>
 
-                <div className="flex space-x-4">
-                    <TransactionWrapper calls={calls} text="Buy Now"/>
-                    <Button variant="outline" size="icon">
-                        <Heart className="w-4 h-4" />
-                    </Button>
-                    <Button variant="outline" size="icon">
-                        <Share2 className="w-4 h-4" />
-                    </Button>
+                    <div className="flex space-x-4">
+                        <TransactionWrapper calls={calls} text="Buy Now" />
+                        <Button variant="outline" size="icon">
+                            <Heart className="w-4 h-4" />
+                        </Button>
+                        <Button variant="outline" size="icon">
+                            <Share2 className="w-4 h-4" />
+                        </Button>
+                    </div>
                 </div>
-            </div>
-        </div>
-    )
-    
+            </section>
+        </div>)
+
 }
