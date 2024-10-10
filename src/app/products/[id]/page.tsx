@@ -201,7 +201,7 @@ export default function Page() {
           Back to Products
         </Link>
       
-        <section className="grid grid-cols-1 lg:grid-cols-2 gap-12">
+        <section className="grid grid-cols-2 place-items-stretch sm:grid-cols-2 gap-12">
           <Image
             src={product.image}
             alt={product.name}
@@ -210,17 +210,19 @@ export default function Page() {
             className="rounded-xl shadow-lg w-full cursor-pointer transition-transform transform hover:scale-105"
           />
       
-          <div className="space-y-6">
-            <h1 className="font-bold text-3xl lg:text-5xl text-slate-900 leading-tight">
-              {product.name}
-            </h1>
-            <p className="text-lg lg:text-xl text-[#4CAF50]">{product.description}</p>
-            <h2 className="text-2xl lg:text-3xl font-bold text-orange-500">
-              {Number(product.price)} ETH
-            </h2>
+          <div className="flex flex-col justify-between">
+            <div className="space-y-2">
+              <h1 className="font-bold text-2xl lg:text-4xl text-slate-900 leading-tight">
+                {product.name}
+              </h1>
+              <p className="text-md lg:text-xl text-slate-400">{product.description}</p>
+              <h2 className="text-xl lg:text-2xl font-bold text-green-600">
+                {Number(product.price)} ETH
+              </h2>
+            </div>
       
             <Card className="w-full bg-white border border-gray-200 rounded-lg shadow-sm">
-              <CardContent className="p-6 w-full flex  items-center justify-between">
+              <CardContent className="p-6 w-full flex flex-wrap gap-5 items-center justify-between">
                 <div className="flex items-center space-x-4">
                   <Avatar>
                     <AvatarImage src={seller.avatar} alt={seller.name} />

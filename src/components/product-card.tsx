@@ -7,18 +7,18 @@ export default function ProductCard({ product }) {
   const { id, name, description, price, image } = product;
 
   return (
-    <Link href={`/products/${id}`}>
+    
       <div key={id} className="mt-4">
         <div className="relative mb-4 h-[250px]">
           <Image
             src={image}
             alt={name}
-            className="rounded-md object-cover w-full h-full"
+            className="rounded-xl object-cover w-full h-full"
             width={300}
             height={250}
           />
 
-          <button className="group absolute bottom-0 left-1/2 transform -translate-x-1/2 translate-y-1/2 flex items-center justify-center gap-2 rounded-full border border-transparent bg-[#4caf50] px-6 py-2 text-white transition-all duration-300 hover:bg-white lg:w-[150px] md:w-[150px]">
+          <button type="button" title="Add to Cart" className="group absolute bottom-0 left-1/2 transform -translate-x-1/2 translate-y-1/2 flex items-center justify-center gap-2 rounded-full border border-transparent bg-[#4caf50] px-6 py-2 text-white transition-all duration-300 hover:bg-white lg:w-[150px] md:w-[150px]">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="16"
@@ -35,20 +35,22 @@ export default function ProductCard({ product }) {
             </span>
           </button>
         </div>
-        <div className="lg:mt-8">
+      <Link href={`/products/${id}`}>
+        <div className="mt-8">
           <h3 className="text-xl font-semibold whitespace-nowrap overflow-hidden">
             {name}
           </h3>
-          <p className="text-md text-[#4CAF50] mb-4">{description}</p>
+          <p className="text-md text-slate-500 mb-2">{description}</p>
           <div className="flex items-center justify-between">
             <div className="flex items-center justify-between">
-              <span className="text-lg font-bold text-red-600">
+              <span className="text-lg font-bold text-[#4CAF50]">
                 {Number(price)} BASE
               </span>
             </div>
           </div>
         </div>
+      </Link>
       </div>
-    </Link>
+    
   );
 }
