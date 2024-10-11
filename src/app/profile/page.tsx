@@ -1,6 +1,5 @@
 "use client"
 
-import Image from "next/image"
 import {
     BasenameTextRecordKeys,
     getBasename,
@@ -8,7 +7,7 @@ import {
     getBasenameTextRecord,
 } from '@/apis/basenames';
 import { useAccount } from 'wagmi';
-import { Address } from "viem";
+import { Address, GetEnsAvatarReturnType } from "viem";
 import { useEffect, useState } from "react";
 
 
@@ -38,9 +37,16 @@ async function fetchData(address: Address) {
     };
 }
 
+type DataProps = {
+    basename: `${string}.base.eth`;
+    avatar: GetEnsAvatarReturnType;
+    description: string | undefined;
+    twitter: string | undefined;
+};
+
 export default function Page() {
     const {address} = useAccount()
-    const [data, setData] = useState(null);
+    const [data, setData] = useState<DataProps | null>(null);
     useEffect(() => {
         fetchData(address as `0x${string}`).then((data) => {
             setData(data)

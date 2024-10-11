@@ -2,22 +2,14 @@
 
 import Link from "next/link";
 import { useAccount } from "wagmi";
-import { useEffect } from "react";
-import { useRouter } from "next/navigation";
 import SignInButton from "./sign-in-button";
 import SignUpButton from "./sign-up-button";
 import Image from "next/image";
+import { ShoppingCart } from "lucide-react";
 
 export default function MainHeader() {
-  const { address, isDisconnected } = useAccount();
-  const router = useRouter();
-
-  useEffect(() => {
-    if (!address && isDisconnected) {
-      router.push("/");
-    }
-  }, [address, isDisconnected, router]);
-
+  const { address } = useAccount();
+  
   return (
     <header className="flex h-20 shadow-md sticky top-0 w-full z-50 bg-white">
       <div className="container flex items-center justify-between">
@@ -84,7 +76,12 @@ export default function MainHeader() {
           </ul>
         </nav>
 
-        <ul className="flex justify-end items-center gap-5">
+        <ul className="flex items-center gap-5">
+          <li>
+            <Link href="/cart">
+              <ShoppingCart className="text-gray-500" />
+            </Link>
+          </li>
           <li>
             <SignUpButton />
           </li>

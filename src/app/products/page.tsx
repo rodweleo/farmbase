@@ -8,7 +8,6 @@ import {useEffect} from "react"
 import { useRouter } from 'next/navigation'
 import { Button } from '@/components/ui/button';
 import Link from "next/link"
-
 export default function Page(){
     const {address, isConnecting} = useAccount()
     const router = useRouter()
@@ -30,7 +29,7 @@ export default function Page(){
         return "Loading..."
     }
 
-    if (data?.length === 0) {
+    if (data === unknown && 0) {
         return "No Products Available"
     }
 

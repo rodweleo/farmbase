@@ -20,13 +20,16 @@ const geistMono = localFont({
 export const metadata: Metadata = {
   title: "FarmBase",
   description: "Your Trusted Farming Partner",
-  
+  openGraph: {
+    title: 'FarmBase',
+    description: 'Built on Coinbase',
+  },
 };
 
 export default function RootLayout({
   children,
 }: Readonly<{
-  children: React.ReactNode;
+  children: React.ReactNode;  
 }>) {
 
   return (
@@ -36,7 +39,7 @@ export default function RootLayout({
       >
        <Providers>
         <MainHeader/>
-        <section className="min-h-screen">
+          <section className="min-h-screen bg-gray-100">
             {children}
         </section>
           <footer className="bg-[#2d2d2d] text-[#e5e5e5] py-3">

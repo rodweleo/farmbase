@@ -5,6 +5,7 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
+    "build:ignore-errors": "tsc --noEmit --skipLibCheck && next build",
     "start": "next start",
     "lint": "next lint"
   },
@@ -13,7 +14,9 @@
     "@coinbase/wallet-sdk": "^4.1.0",
     "@hookform/resolvers": "^3.9.0",
     "@radix-ui/react-avatar": "^1.1.1",
+    "@radix-ui/react-dialog": "^1.1.2",
     "@radix-ui/react-label": "^2.1.0",
+    "@radix-ui/react-radio-group": "^1.2.1",
     "@radix-ui/react-slot": "^1.1.0",
     "@tanstack/query-sync-storage-persister": "^5.59.0",
     "@tanstack/react-query": "^5.59.0",
@@ -42,6 +45,6 @@
     "eslint-config-next": "14.2.13",
     "postcss": "^8",
     "tailwindcss": "^3.4.1",
-    "typescript": "^5"
+    "typescript": "^5.6.3"
   }
 }

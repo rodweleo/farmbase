@@ -1,6 +1,7 @@
 "use client"
 
 import { contracts } from "@/contracts"
+import { ProductProps } from "@/utils/types"
 import { useContractReads } from "wagmi"
 
 export const useProductQuery = ({id}: {
@@ -49,12 +50,13 @@ export const useProductQuery = ({id}: {
     })
 
     if(!data){
-        const product = {
+        const product: ProductProps = {
+            id: BigInt(0),
             description: "",
-            farmer: "",
+            farmer: "0x",
             image: "",
-            price: "",
-            stock: "",
+            price: BigInt(0),
+            stock: BigInt(0),
             name: ""
         }
         return {

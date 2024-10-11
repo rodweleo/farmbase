@@ -3,7 +3,16 @@
 import Image from "next/image";
 import Link from "next/link";
 
-export default function ProductCard({ product }) {
+type ProductProps = {
+  id: number | string,
+  name: string,
+  description: string,
+  price: bigint,
+  image: string
+}
+export default function ProductCard({ product }: {
+  product: ProductProps
+}) {
   const { id, name, description, price, image } = product;
 
   return (

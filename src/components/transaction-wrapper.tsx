@@ -4,17 +4,21 @@ import { Transaction, TransactionButton, TransactionError, TransactionResponse, 
 import { baseSepolia } from 'viem/chains';
 import {toast} from "react-hot-toast";
 import { ContractFunctionParameters } from 'viem';
+import { Call } from '@/utils/types';
 export default function TransactionWrapper({contracts, text, calls}: {
     contracts?: ContractFunctionParameters[],
     text: string,
-    calls?: any
+    calls?: Call[]
 }) {
 
 
     const handleError = (err: TransactionError) => {
-        // const error = JSON.parse(err.error)
-        // toast.error(error.details);
-        console.log(err)
+        const error = JSON.parse(err.error)
+        if (typeof error === "object"){
+            toast.error(error.details)
+        }else{
+            toast.error(error)
+        }
     };
 
     const handleSuccess = (response: TransactionResponse) => {

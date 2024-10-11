@@ -52,8 +52,8 @@ export default function AddFarmerProductForm() {
             args: [
                 values.name,
                 values.description,
-                values.price,
-                values.stock,
+                BigInt(values.price),
+                BigInt(values.stock),
                 values.image
             ],
         })

@@ -1,13 +1,18 @@
 import { Hex } from 'viem';
 
-interface FarmProduct {
-    name: string;
-    description: string;
-    price: number;
+export type ProductProps = {
+    id: bigint,
+    name: string,
+    description: string,
+    price: bigint,
+    image: string,
+    farmer: `0x${string}`,
+    stock: bigint
 }
 
-type Call = {
+export type Call = {
     to: Hex;
     data?: Hex;
     value?: bigint;
 };
+
