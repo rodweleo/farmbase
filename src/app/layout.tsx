@@ -6,6 +6,7 @@ import '@coinbase/onchainkit/styles.css';
 import { Providers } from "@/components/providers";
 import { Toaster } from 'react-hot-toast';
 
+
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
   variable: "--font-geist-sans",

@@ -13,12 +13,7 @@ export default function TransactionWrapper({contracts, text, calls}: {
 
 
     const handleError = (err: TransactionError) => {
-        const error = JSON.parse(err.error)
-        if (typeof error === "object"){
-            toast.error(error.details)
-        }else{
-            toast.error(error)
-        }
+        toast.error('Something went wrong: '+ err);
     };
 
     const handleSuccess = (response: TransactionResponse) => {

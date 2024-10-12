@@ -6,10 +6,16 @@ import SignInButton from "./sign-in-button";
 import SignUpButton from "./sign-up-button";
 import Image from "next/image";
 import { ShoppingCart } from "lucide-react";
+import { useSelector } from 'react-redux';
+import { RootState } from '@/redux/store';
+import { getUserByAddress } from "@/functions/get-user-by-address";
 
 export default function MainHeader() {
   const { address } = useAccount();
-  
+  const cartItems = useSelector((state: RootState) => state.cart.items);
+
+  const {user} = getUserByAddress(address)
+ 
   return (
     <header className="flex h-20 shadow-md sticky top-0 w-full z-50 bg-white">
       <div className="container flex items-center justify-between">
@@ -29,14 +35,16 @@ export default function MainHeader() {
           <ul className="flex items-center gap-10">
             {address && (
               <>
-                <li>
-                  <Link
-                    href="/products"
-                    className="text-gray-800 hover:text-[#4CAF50] transition-colors duration-300"
-                  >
-                    Products
-                  </Link>
-                </li>
+                {
+                  user?.role === "seller" && <li>
+                    <Link
+                      href="/products"
+                      className="text-gray-800 hover:text-[#4CAF50] transition-colors duration-300"
+                    >
+                      Products
+                    </Link>
+                  </li>
+                }
                 <li>
                   <Link
                     href="/orders"
@@ -77,9 +85,10 @@ export default function MainHeader() {
         </nav>
 
         <ul className="flex items-center gap-5">
-          <li>
-            <Link href="/cart">
-              <ShoppingCart className="text-gray-500" />
+          <li className="mr-5">
+            <Link href="/cart" className="relative hover:text-green-500">
+              <ShoppingCart className="text-gray-500 hover:text-green-500" />
+              <div className="absolute text-white -top-3 border-2 border-white -right-4 bg-green-500 rounded-[50%] px-2">{cartItems.length}</div>
             </Link>
           </li>
           <li>

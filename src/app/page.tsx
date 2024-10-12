@@ -18,7 +18,7 @@ export default function Home() {
     </section>
     <section className="container space-y-2">
       <h1 className="font-bold text-2xl">Featured Products</h1>
-      {error ? `Something went wrong: ${error}` : null}
+      {error ? <div className="py-6 px-4 rounded-md bg-red-200 text-red-500">{error.message.includes('HTTP request failed') ? 'You seem to be offline. Try reconnecting to the internet to continue shopping.' : error.message}</div> : null}
       {isLoading ? <div className="flex items-center gap-2">
         <Loader2 className="animate-spin" />
         <p>Loading...</p>

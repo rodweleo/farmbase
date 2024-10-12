@@ -6,9 +6,49 @@ import { Button } from "@/components/ui/button"
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
 import { Label } from "@/components/ui/label"
 import { useState } from 'react'
+import {contracts} from "@/contracts"
+import { useSelector } from 'react-redux';
+import { RootState } from '@/redux/store';
+import {weiToEth} from '@/functions/wei-to-eth'
+import { useRouter } from "next/navigation"
+import {toast} from "react-hot-toast"
+import { useAccount } from 'wagmi'
+import { getUserByAddress } from '@/functions/get-user-by-address'
+import TransactionWrapper from '@/components/transaction-wrapper'
+import { Call } from "@/utils/types"
+import { encodeFunctionData } from 'viem';
 
 export default function Checkout() {
     const [paymentMethod, setPaymentMethod] = useState('card')
+    const {address} = useAccount()
+    const {user} = getUserByAddress(address)
+
+    const cartItems = useSelector((state: RootState) => state.cart.items);
+    const subtotal = weiToEth(cartItems.reduce((sum, item) => sum + Number(item.price) * item.quantity, 0))
+    const total = weiToEth(cartItems.reduce((sum, item) => sum + Number(item.price) * item.quantity, 0))
+
+    const orderItem = {
+        buyer: address ? address : contracts[2].address,
+        productId: cartItems.length > 0 && cartItems[0].id,
+        quantity: cartItems.length > 0 && cartItems[0].quantity,
+        price: cartItems.length > 0 && cartItems[0].price,
+        seller: cartItems.length > 0 && cartItems[0].farmer
+    }
+
+    const encodedPlaceOrderData = encodeFunctionData({
+        abi: contracts[3].abi,
+        functionName: 'createOrder',
+        args: [orderItem.buyer, orderItem.productId, orderItem.quantity, orderItem.price, orderItem.seller]
+    })
+    const calls: Call[] = [
+        {
+            to: contracts[3].address,
+            data: encodedPlaceOrderData,
+            value: BigInt(cartItems.reduce((sum, item) => sum + Number(item.price) * item.quantity, 0))
+        },
+    ];
+
+
 
     return (
         <div className="min-h-screen bg-gray-100">
@@ -20,29 +60,29 @@ export default function Checkout() {
 
                 <div className="bg-white rounded-lg shadow-md p-6">
                     <h1 className="text-2xl font-semibold mb-4">Checkout</h1>
-                    <form>
+                    <div>
                         <div className="mb-6">
                             <h2 className="text-lg font-semibold mb-2">Shipping Information</h2>
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                                 <div>
                                     <Label htmlFor="firstName">First Name</Label>
-                                    <input type="text" id="firstName" className="w-full border rounded px-3 py-2" required />
+                                    <input type="text" id="firstName" className="w-full border rounded px-3 py-2" defaultValue={user?.name.split(" ")[0]} />
                                 </div>
                                 <div>
                                     <Label htmlFor="lastName">Last Name</Label>
-                                    <input type="text" id="lastName" className="w-full border rounded px-3 py-2" required />
+                                    <input type="text" id="lastName" className="w-full border rounded px-3 py-2" defaultValue={user?.name.split(" ")[1]} />
                                 </div>
                                 <div className="md:col-span-2">
                                     <Label htmlFor="address">Address</Label>
-                                    <input type="text" id="address" className="w-full border rounded px-3 py-2" required />
+                                    <input type="text" id="address" className="w-full border rounded px-3 py-2" />
                                 </div>
                                 <div>
                                     <Label htmlFor="city">City</Label>
-                                    <input type="text" id="city" className="w-full border rounded px-3 py-2" required />
+                                    <input type="text" id="city" className="w-full border rounded px-3 py-2" />
                                 </div>
                                 <div>
                                     <Label htmlFor="zipCode">ZIP Code</Label>
-                                    <input type="text" id="zipCode" className="w-full border rounded px-3 py-2" required />
+                                    <input type="text" id="zipCode" className="w-full border rounded px-3 py-2" />
                                 </div>
                             </div>
                         </div>
@@ -94,7 +134,7 @@ export default function Checkout() {
                             <div className="mb-6">
                                 <h2 className="text-lg font-semibold mb-2">Bitcoin Payment</h2>
                                 <p className="mb-2">Send the exact amount to the following Bitcoin address:</p>
-                                <input type="text" value="1BvBMSEYstWetqTFn5Au4m4GFg7xJaNVN2" className="w-full border rounded px-3 py-2 bg-gray-100" readOnly />
+                                <input type="text" value="" className="w-full border rounded px-3 py-2 bg-gray-100" readOnly />
                             </div>
                         )}
 
@@ -102,7 +142,7 @@ export default function Checkout() {
                             <div className="mb-6">
                                 <h2 className="text-lg font-semibold mb-2">Ethereum Payment</h2>
                                 <p className="mb-2">Send the exact amount to the following Ethereum address:</p>
-                                <input type="text" value="0x742d35Cc6634C0532925a3b844Bc454e4438f44e" className="w-full border rounded px-3 py-2 bg-gray-100" readOnly />
+                                <input type="text" value={cartItems[0].farmer} className="w-full border rounded px-3 py-2 bg-gray-100" readOnly />
                             </div>
                         )}
 
@@ -110,20 +150,16 @@ export default function Checkout() {
                             <h2 className="text-lg font-semibold mb-2">Order Summary</h2>
                             <div className="flex justify-between mb-2">
                                 <span>Subtotal</span>
-                                <span>$4.98</span>
-                            </div>
-                            <div className="flex justify-between mb-2">
-                                <span>Tax</span>
-                                <span>$0.50</span>
+                                <span>{subtotal} Eth</span>
                             </div>
                             <div className="flex justify-between font-semibold text-lg">
                                 <span>Total</span>
-                                <span>$5.48</span>
+                                <span>{total} Eth</span>
                             </div>
                         </div>
 
-                        <Button type="submit" size="lg" className="w-full bg-green-600 hover:bg-green-500 rounded-full">Place Order</Button>
-                    </form>
+                        <TransactionWrapper calls={calls} text="Place Order"/>
+                    </div>
                 </div>
             </main>
         </div>

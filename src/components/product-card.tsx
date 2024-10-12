@@ -2,6 +2,10 @@
 
 import Image from "next/image";
 import Link from "next/link";
+import {toast} from 'react-hot-toast'
+import { useDispatch } from 'react-redux';
+import { addItem } from '@/redux/cartSlice';
+import { weiToEth } from "@/functions/wei-to-eth";
 
 type ProductProps = {
   id: number | string,
@@ -15,6 +19,23 @@ export default function ProductCard({ product }: {
 }) {
   const { id, name, description, price, image } = product;
 
+    const dispatch = useDispatch();
+
+  // Function to add an item to the cart
+  const addProductToCart = (item) => {
+    try{
+      dispatch(addItem({
+        ...item, 
+        id: Number(item.id),
+        stock: Number(item.stock),
+        price: Number(item.price),
+        farmer: item.farmer as `0x${string}`
+      }));
+      toast.success('Product added to cart!')
+    }catch(e){
+      toast.error('Something went wrong: '+ e.message)
+    }
+  };
   return (
     
       <div key={id} className="mt-4">
@@ -25,9 +46,10 @@ export default function ProductCard({ product }: {
             className="rounded-xl object-cover w-full h-full"
             width={300}
             height={250}
+            unoptimized
           />
 
-          <button type="button" title="Add to Cart" className="group absolute bottom-0 left-1/2 transform -translate-x-1/2 translate-y-1/2 flex items-center justify-center gap-2 rounded-full border border-transparent bg-[#4caf50] px-6 py-2 text-white transition-all duration-300 hover:bg-white lg:w-[150px] md:w-[150px]">
+        <button type="button" title="Add to Cart" className="group absolute bottom-0 left-1/2 transform -translate-x-1/2 translate-y-1/2 flex items-center justify-center gap-2 rounded-full border border-transparent bg-[#4caf50] px-6 py-2 text-white transition-all duration-300 hover:bg-white lg:w-[150px] md:w-[150px]" onClick={() => addProductToCart(product)}>
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="16"
@@ -45,18 +67,14 @@ export default function ProductCard({ product }: {
           </button>
         </div>
       <Link href={`/products/${id}`}>
-        <div className="mt-8">
+        <div className="mt-5">
           <h3 className="text-xl font-semibold whitespace-nowrap overflow-hidden">
             {name}
           </h3>
-          <p className="text-md text-slate-500 mb-2">{description}</p>
-          <div className="flex items-center justify-between">
-            <div className="flex items-center justify-between">
-              <span className="text-lg font-bold text-[#4CAF50]">
-                {Number(price)} BASE
-              </span>
-            </div>
-          </div>
+          <p className="text-md text-slate-500">{description}</p>
+          <span className="text-lg font-bold text-[#4CAF50]">
+            {weiToEth(Number(price))} Eth
+          </span>
         </div>
       </Link>
       </div>

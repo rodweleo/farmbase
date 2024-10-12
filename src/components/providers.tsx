@@ -16,6 +16,8 @@ import {
   rainbowWallet,
   coinbaseWallet,
 } from '@rainbow-me/rainbowkit/wallets';
+import { Provider } from 'react-redux';
+import { store } from '@/redux/store';
 
 const connectors: CreateConnectorFn[] = connectorsForWallets(
   [
@@ -45,7 +47,7 @@ export function Providers(props: {
     connectors: connectors,
     projectId: projectId,
     chains: [baseSepolia],
-    ssr: true, 
+    ssr: false, 
   }); 
  
   return (
@@ -57,7 +59,9 @@ export function Providers(props: {
           schemaId={process.env.NEXT_COINBASE_VERIFIED_ACCOUNT_SCHEMA_ID! as `0x${string}`}
         >
           <RainbowKitProvider modalSize="compact">
+            <Provider store={store}>
             {props.children}
+            </Provider>
           </RainbowKitProvider>
         </OnchainKitProvider>
       </QueryClientProvider>
