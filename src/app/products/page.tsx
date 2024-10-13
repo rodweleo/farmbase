@@ -37,7 +37,7 @@ export default function Page(){
         return 'Something went wrong' + error;
     }
     return (
-        <div className="container space-y-2.5 py-5">
+        <div className="container py-5">
             <main className="bg-white px-4 py-6 rounded-xl shadow-md">
                 <div className="flex justify-between">
                     <h1 className="font-bold text-2xl">My Products</h1>

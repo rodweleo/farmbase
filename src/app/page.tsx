@@ -13,10 +13,10 @@ export default function Home() {
       <div className="container mx-auto px-6 text-center z-20">
         <h1 className="text-5xl font-bold mb-2">Welcome to FarmBase Market</h1>
         <p className="text-xl mb-8">Discover the best local, organic produce delivered to your doorstep.</p>
-        <Button size="lg" variant="secondary">Shop Now</Button>
+        <Button size="lg" variant="secondary"><a href="#featured-products">Shop Now</a></Button>
       </div>
     </section>
-    <section className="container space-y-2">
+    <section id="featured-products" className="container bg-white py-6 px-4 rounded-xl shadow-md space-y-2">
       <h1 className="font-bold text-2xl">Featured Products</h1>
       {error ? <div className="py-6 px-4 rounded-md bg-red-200 text-red-500">{error.message.includes('HTTP request failed') ? 'You seem to be offline. Try reconnecting to the internet to continue shopping.' : error.message}</div> : null}
       {isLoading ? <div className="flex items-center gap-2">

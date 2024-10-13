@@ -9,9 +9,12 @@ import { ShoppingCart } from "lucide-react";
 import { useSelector } from 'react-redux';
 import { RootState } from '@/redux/store';
 import { getUserByAddress } from "@/functions/get-user-by-address";
+import {useRouter} from "next/navigation";
+import { Button } from "@/components/ui/button"
 
 export default function MainHeader() {
   const { address } = useAccount();
+  const router = useRouter();
   const cartItems = useSelector((state: RootState) => state.cart.items);
 
   const {user} = getUserByAddress(address)
@@ -92,6 +95,7 @@ export default function MainHeader() {
             </Link>
           </li>
           <li>
+            <div className="hidden"><Button onClick={() => router.push('/create-account')}>Create Account</Button></div>
             <SignUpButton />
           </li>
           <li>{!address && <SignInButton />}</li>
