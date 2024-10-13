@@ -25,11 +25,11 @@ export default function Checkout() {
     const total = weiToEth(cartItems.reduce((sum, item) => sum + Number(item.price) * item.quantity, 0))
 
     const orderItem = {
-        buyer: address ? address : contracts[2].address,
+        buyer: address ? address as `0x${string}` : contracts[2].address,
         productId: cartItems.length > 0 && cartItems[0].id,
         quantity: cartItems.length > 0 && cartItems[0].quantity,
         price: cartItems.length > 0 && cartItems[0].price,
-        seller: cartItems.length > 0 && cartItems[0].farmer
+        seller: cartItems.length > 0 ? cartItems[0].farmer as `0x${string}` : contracts[2].address
     }
 
     const encodedPlaceOrderData = encodeFunctionData({
