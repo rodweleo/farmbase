@@ -2,7 +2,6 @@
 
 import Link from 'next/link'
 import { ArrowLeft } from 'lucide-react'
-import { Button } from "@/components/ui/button"
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
 import { Label } from "@/components/ui/label"
 import { useState } from 'react'
@@ -10,8 +9,6 @@ import {contracts} from "@/contracts"
 import { useSelector } from 'react-redux';
 import { RootState } from '@/redux/store';
 import {weiToEth} from '@/functions/wei-to-eth'
-import { useRouter } from "next/navigation"
-import {toast} from "react-hot-toast"
 import { useAccount } from 'wagmi'
 import { getUserByAddress } from '@/functions/get-user-by-address'
 import TransactionWrapper from '@/components/transaction-wrapper'
