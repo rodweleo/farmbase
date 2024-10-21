@@ -15,14 +15,10 @@ import TransactionWrapper from '@/components/transaction-wrapper'
 import { Call } from "@/utils/types"
 import { encodeFunctionData } from 'viem';
 import {toast} from "react-hot-toast"
-import { useDispatch } from 'react-redux';
-import { clearCart } from '@/redux/cartSlice';
-
 export default function Checkout() {
     const [paymentMethod, setPaymentMethod] = useState('ethereum')
     const {address} = useAccount()
     const {user} = getUserByAddress(address)
-    const dispatch = useDispatch()
     const cartItems = useSelector((state: RootState) => state.cart.items);
     const subtotal = weiToEth(cartItems.reduce((sum, item) => sum + Number(item.price) * item.quantity, 0))
     const total = weiToEth(cartItems.reduce((sum, item) => sum + Number(item.price) * item.quantity, 0))
@@ -50,9 +46,7 @@ export default function Checkout() {
 
     const handleOrderTransactionSuccess = () => {
         toast.success("Your order was placed successfully.")
-
-        //clear the cart
-        dispatch(clearCart())
+        
     }
 
 
@@ -150,7 +144,7 @@ export default function Checkout() {
                             <div className="mb-6">
                                 <h2 className="text-lg font-semibold mb-2">Ethereum Payment</h2>
                                 <p className="mb-2">Send the exact amount to the following Ethereum address:</p>
-                                <input type="text" value={cartItems[0].farmer} className="w-full border rounded px-3 py-2 bg-gray-100" readOnly />
+                                <input type="text" value={cartItems.length > 0 ? cartItems[0].farmer : ""} className="w-full border rounded px-3 py-2 bg-gray-100" readOnly />
                             </div>
                         )}
 
