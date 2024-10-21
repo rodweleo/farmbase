@@ -4,9 +4,16 @@ import ProductList from "@/components/product-list";
 import { useAllProductsQuery } from "@/hooks/use-all-products-query";
 import { Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button"
-
+import {useAccount} from "wagmi"
 export default function Home() {
   const { products, error, isLoading } = useAllProductsQuery()
+  const {address}  = useAccount()
+
+  //filter out the products. A seller cannot view his/her own products in featured products, only of other sellers
+  const filteredProducts = products.filter((product) => product.farmer !== address)
+
+
+
   return <div className="space-y-5">
     <section className="bg-[url('/farm-product.png')] bg-cover bg-no-repeat w-full text-white h-80 relative grid place-items-center">
       <div className="absolute inset-0 bg-black bg-opacity-50 z-10"/>
@@ -23,7 +30,7 @@ export default function Home() {
         <Loader2 className="animate-spin" />
         <p>Loading...</p>
       </div> : null}
-      <ProductList className="flex gap-4 flex-wrap" products={products} />
+      <ProductList className="flex gap-4 flex-wrap" products={filteredProducts} />
     </section>
   </div>;
 }

@@ -11,14 +11,17 @@ import { RootState } from '@/redux/store';
 import { getUserByAddress } from "@/functions/get-user-by-address";
 import {useRouter} from "next/navigation";
 import { Button } from "@/components/ui/button"
+import SellOnFarmbaseBtn from "./sell-on-farmbase-btn";
 
 export default function MainHeader() {
   const { address } = useAccount();
+
   const router = useRouter();
   const cartItems = useSelector((state: RootState) => state.cart.items);
 
   const {user} = getUserByAddress(address)
- 
+
+
   return (
     <header className="flex h-20 shadow-md sticky top-0 w-full z-50 bg-white">
       <div className="container flex items-center justify-between">
@@ -44,7 +47,7 @@ export default function MainHeader() {
                       href="/products"
                       className="text-gray-800 hover:text-[#4CAF50] transition-colors duration-300"
                     >
-                      Products
+                      My Products
                     </Link>
                   </li>
                 }
@@ -53,17 +56,10 @@ export default function MainHeader() {
                     href="/orders"
                     className="text-gray-800 hover:text-[#4CAF50] transition-colors duration-300"
                   >
-                    Orders
+                    My Orders
                   </Link>
                 </li>
-                <li>
-                  <Link
-                    href="/profile"
-                    className="text-gray-800 hover:text-[#4CAF50] transition-colors duration-300"
-                  >
-                    Profile
-                  </Link>
-                </li>
+                
               </>
             )}
             <li>
@@ -84,6 +80,10 @@ export default function MainHeader() {
                 <span className="font-semibold">Swap Tokens</span>
               </Link>
             </li>
+            {
+              user?.role === "buyer" &&
+             <li><SellOnFarmbaseBtn/></li>      
+            }
           </ul>
         </nav>
 

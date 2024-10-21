@@ -21,9 +21,20 @@ const geistMono = localFont({
 export const metadata: Metadata = {
   title: "FarmBase",
   description: "Your Trusted Farming Partner",
+  metadataBase: new URL("https://thefarmbase.vercel.app"),
+  alternates: {
+    canonical: '/',
+    languages: {
+      'en-US': '/en-US',
+      'de-DE': '/de-DE',
+    },
+  },
   openGraph: {
     title: 'FarmBase',
-    description: 'Built on Coinbase',
+    description: 'Your Trusted Farming Partner',
+    url: "https://thefarmbase.vercel.app",
+    locale: 'en_US',
+    type: 'website',
   },
 };
 

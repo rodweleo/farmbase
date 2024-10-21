@@ -44,10 +44,18 @@ export default function WalletWrapper({
             <WalletDropdownBasename />
             <WalletDropdownLink
                 icon="wallet"
+                href="/profile"
+            >
+                Profile
+            </WalletDropdownLink>
+            <WalletDropdownLink
+                icon="wallet"
                 href="https://keys.coinbase.com"
+                target="_blank"
             >
                 Wallet
             </WalletDropdownLink>
+            
             <WalletDropdownFundLink openIn="tab" target="_blank" />
             <WalletDropdownDisconnect />
         </WalletDropdown>

@@ -14,12 +14,15 @@ import { getUserByAddress } from '@/functions/get-user-by-address'
 import TransactionWrapper from '@/components/transaction-wrapper'
 import { Call } from "@/utils/types"
 import { encodeFunctionData } from 'viem';
+import {toast} from "react-hot-toast"
+import { useDispatch } from 'react-redux';
+import { clearCart } from '@/redux/cartSlice';
 
 export default function Checkout() {
-    const [paymentMethod, setPaymentMethod] = useState('card')
+    const [paymentMethod, setPaymentMethod] = useState('ethereum')
     const {address} = useAccount()
     const {user} = getUserByAddress(address)
-
+    const dispatch = useDispatch()
     const cartItems = useSelector((state: RootState) => state.cart.items);
     const subtotal = weiToEth(cartItems.reduce((sum, item) => sum + Number(item.price) * item.quantity, 0))
     const total = weiToEth(cartItems.reduce((sum, item) => sum + Number(item.price) * item.quantity, 0))
@@ -45,6 +48,12 @@ export default function Checkout() {
         },
     ];
 
+    const handleOrderTransactionSuccess = () => {
+        toast.success("Your order was placed successfully.")
+
+        //clear the cart
+        dispatch(clearCart())
+    }
 
 
     return (
@@ -87,14 +96,16 @@ export default function Checkout() {
                         <div className="mb-6">
                             <h2 className="text-lg font-semibold mb-2">Payment  Method</h2>
                             <RadioGroup value={paymentMethod} onValueChange={setPaymentMethod}>
-                                <div className="flex items-center space-x-2 mb-2">
-                                    <RadioGroupItem value="card" id="card" />
-                                    <Label htmlFor="card">Credit/Debit Card</Label>
-                                </div>
-                                <div className="flex items-center space-x-2 mb-2">
-                                    <RadioGroupItem value="bitcoin" id="bitcoin" />
-                                    <Label htmlFor="bitcoin">Bitcoin</Label>
-                                </div>
+                               <div className="hidden">
+                                    <div className="flex items-center space-x-2 mb-2">
+                                        <RadioGroupItem value="card" id="card" />
+                                        <Label htmlFor="card">Credit/Debit Card</Label>
+                                    </div>
+                                    <div className="flex items-center space-x-2 mb-2">
+                                        <RadioGroupItem value="bitcoin" id="bitcoin" />
+                                        <Label htmlFor="bitcoin">Bitcoin</Label>
+                                    </div>
+                               </div>
                                 <div className="flex items-center space-x-2">
                                     <RadioGroupItem value="ethereum" id="ethereum" />
                                     <Label htmlFor="ethereum">Ethereum</Label>
@@ -155,7 +166,7 @@ export default function Checkout() {
                             </div>
                         </div>
 
-                        <TransactionWrapper calls={calls} text="Place Order"/>
+                        <TransactionWrapper calls={calls} handleSuccess={handleOrderTransactionSuccess} text="Place Order"/>
                     </div>
                 </div>
             </main>

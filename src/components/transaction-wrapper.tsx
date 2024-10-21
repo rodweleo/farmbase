@@ -1,34 +1,34 @@
 "use client"
 
-import { Transaction, TransactionButton, TransactionError, TransactionResponse, TransactionStatus, TransactionStatusAction, TransactionStatusLabel } from '@coinbase/onchainkit/transaction';
+import { Transaction, TransactionButton, TransactionStatus, TransactionStatusAction, TransactionStatusLabel } from '@coinbase/onchainkit/transaction';
 import { baseSepolia } from 'viem/chains';
 import {toast} from "react-hot-toast";
 import { ContractFunctionParameters } from 'viem';
 import { Call } from '@/utils/types';
-export default function TransactionWrapper({contracts, text, calls}: {
+export default function TransactionWrapper({contracts, text, calls, handleSuccess, handleError}: {
     contracts?: ContractFunctionParameters[],
     text: string,
-    calls?: Call[]
+    calls?: Call[],
+    handleSuccess?: () => void,
+    handleError?: () => void
 }) {
 
+    const NEXT_PAYMASTER_AND_BUNDLER_BASE_SEPOLIA_ENDPOINT = process.env.NEXT_PAYMASTER_AND_BUNDLER_BASE_SEPOLIA_ENDPOINT! || "https://api.developer.coinbase.com/rpc/v1/base-sepolia/Y08nYtO-2Kj8G-s_LTGFrx0nnZGSeexD"
 
-    const handleError = (err: TransactionError) => {
-        toast.error('Something went wrong: '+ err);
-    };
-
-    const handleSuccess = (response: TransactionResponse) => {
-        toast.success('Transaction successful: ' + response.transactionReceipts);
-    };
     return (
         <Transaction
             chainId={baseSepolia.id}
             contracts={contracts}
             calls={calls}
-            onSuccess={handleSuccess}
-            onError={handleError}
+            onSuccess={handleSuccess ? handleSuccess : () => {
+                toast.success('Transaction was successful');
+            }}
+            onError={handleError ? handleError : () => {
+                toast.error("Something went wrong.")
+            }}
             capabilities={{
                 paymasterService: {
-                    url: process.env.NEXT_PAYMASTER_AND_BUNDLER_BASE_SEPOLIA_ENDPOINT!,
+                    url: NEXT_PAYMASTER_AND_BUNDLER_BASE_SEPOLIA_ENDPOINT,
                 },
             }}
         >

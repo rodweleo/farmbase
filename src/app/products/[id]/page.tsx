@@ -17,6 +17,7 @@ import {Button} from "@/components/ui/button"
 import { weiToEth } from "@/functions/wei-to-eth"
 import {toast} from "react-hot-toast"
 
+
 export default function Page() {
   const { id } = useParams();
   const { product, error, isLoading } = useProductQuery({ id });

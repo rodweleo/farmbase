@@ -1,4 +1,4 @@
-import { configureStore, subscribe } from '@reduxjs/toolkit';
+import { configureStore } from '@reduxjs/toolkit';
 import cartReducer from './cartSlice';
 
 export const store = configureStore({

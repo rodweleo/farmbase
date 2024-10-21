@@ -1,0 +1,113 @@
+{
+  "_format": "hh-sol-cache-2",
+  "files": {
+    "C:\\Users\\Christy\\projects\\base-app\\contracts\\OrderManagement.sol": {
+      "lastModificationDate": 1729006071478,
+      "contentHash": "70b61cb3d95ad03e242d3bc7d3d61234",
+      "sourceName": "contracts/OrderManagement.sol",
+      "solcConfig": {
+        "version": "0.8.27",
+        "settings": {
+          "evmVersion": "paris",
+          "optimizer": {
+            "enabled": false,
+            "runs": 200
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [],
+      "versionPragmas": [
+        "^0.8.0"
+      ],
+      "artifacts": [
+        "OrderManagement"
+      ]
+    },
+    "C:\\Users\\Christy\\projects\\base-app\\contracts\\ProductManagement.sol": {
+      "lastModificationDate": 1729006123166,
+      "contentHash": "8cea75e9eb4120b6a51b616c453a494a",
+      "sourceName": "contracts/ProductManagement.sol",
+      "solcConfig": {
+        "version": "0.8.27",
+        "settings": {
+          "evmVersion": "paris",
+          "optimizer": {
+            "enabled": false,
+            "runs": 200
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [],
+      "versionPragmas": [
+        "^0.8.0"
+      ],
+      "artifacts": [
+        "FarmProductListing"
+      ]
+    },
+    "C:\\Users\\Christy\\projects\\base-app\\contracts\\UserManagement.sol": {
+      "lastModificationDate": 1729006125322,
+      "contentHash": "2be429d24a3c154f7d990b401331c899",
+      "sourceName": "contracts/UserManagement.sol",
+      "solcConfig": {
+        "version": "0.8.27",
+        "settings": {
+          "evmVersion": "paris",
+          "optimizer": {
+            "enabled": false,
+            "runs": 200
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [],
+      "versionPragmas": [
+        "^0.8.0"
+      ],
+      "artifacts": [
+        "UserManagement"
+      ]
+    }
+  }
+}
